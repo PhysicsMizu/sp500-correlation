@@ -1,0 +1,68 @@
+{
+  "n_stocks": 456,
+  "n_days": 2980,
+  "q": 0.153,
+  "sigma2_noise": 0.6597,
+  "lambda_plus": 1.2768,
+  "n_signal_eigenvalues": 36,
+  "lambda1": 155.16,
+  "lambda1_share": 0.3403,
+  "variance_share_signal": 0.6377,
+  "pc1_corr_with_equal_weight_index": 0.9971,
+  "pc_top_sector": {
+    "PC1": "Financials",
+    "PC2": "Utilities",
+    "PC3": "Energy",
+    "PC4": "Utilities",
+    "PC5": "Real Estate",
+    "PC6": "Energy",
+    "PC7": "Energy",
+    "PC8": "Health Care",
+    "PC9": "Real Estate",
+    "PC10": "Consumer Staples"
+  },
+  "mst_hubs": {
+    "MCO": 14,
+    "PH": 13,
+    "ITW": 13,
+    "PRU": 12,
+    "HD": 10,
+    "PEP": 9,
+    "SYK": 9,
+    "AMP": 8,
+    "TEL": 8,
+    "MPWR": 8
+  },
+  "mst_hubs_detoned": {
+    "NOW": 12,
+    "CMS": 10,
+    "ETN": 9,
+    "BAC": 9,
+    "GIS": 8,
+    "CAT": 8,
+    "ED": 7,
+    "HBAN": 7,
+    "TYL": 7,
+    "VRSK": 7
+  },
+  "mst_sector_purity": {
+    "observed": 0.8307692307692308,
+    "null_mean": 0.10919670329670332,
+    "null_std": 0.014804112352423265,
+    "p_value": 0.0004997501249375312
+  },
+  "mst_sector_purity_detoned": {
+    "observed": 0.8681318681318682,
+    "null_mean": 0.10913626373626376,
+    "null_std": 0.014669955298347045,
+    "p_value": 0.0004997501249375312
+  },
+  "tree_length_min": {
+    "2020-04-06": 0.598
+  },
+  "gmv_oos_annual_vol": {
+    "sample": 0.3151,
+    "clipped": 0.1259,
+    "equal": 0.1856
+  }
+}
