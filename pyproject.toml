@@ -20,6 +20,7 @@ dependencies = [
 [project.scripts]
 sp500-corr = "sp500_corr.cli:main"
 sp500-article = "sp500_corr.article:main"
+sp500-asymmetry = "sp500_corr.asym_article:main"
 
 [build-system]
 requires = ["uv_build>=0.11.25,<0.12.0"]

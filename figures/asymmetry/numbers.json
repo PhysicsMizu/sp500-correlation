@@ -1,0 +1,696 @@
+{
+  "T_raw": 2980,
+  "T_devol": 2920,
+  "N": 456,
+  "conditional_q20": {
+    "raw": {
+      "mean_corr": {
+        "down": 0.286,
+        "up": 0.206,
+        "diff": 0.08,
+        "null_sd": 0.064,
+        "z": 1.2
+      },
+      "lambda1_share": {
+        "down": 0.304,
+        "up": 0.223,
+        "diff": 0.082,
+        "null_sd": 0.066,
+        "z": 1.2
+      },
+      "lambda2": {
+        "down": 30.376,
+        "up": 35.039,
+        "diff": -4.663,
+        "null_sd": 4.609,
+        "z": -1.0
+      },
+      "n_signal": {
+        "down": 21.0,
+        "up": 21.0,
+        "diff": 0.0,
+        "null_sd": 1.235,
+        "z": 0.0
+      },
+      "tree_length": {
+        "down": 0.817,
+        "up": 0.863,
+        "diff": -0.046,
+        "null_sd": 0.042,
+        "z": -1.1
+      },
+      "gaussian_mean_corr": {
+        "down": 0.106,
+        "up": 0.105
+      }
+    },
+    "devol": {
+      "mean_corr": {
+        "down": 0.171,
+        "up": 0.08,
+        "diff": 0.091,
+        "null_sd": 0.019,
+        "z": 4.7
+      },
+      "lambda1_share": {
+        "down": 0.184,
+        "up": 0.092,
+        "diff": 0.092,
+        "null_sd": 0.02,
+        "z": 4.6
+      },
+      "lambda2": {
+        "down": 36.58,
+        "up": 33.999,
+        "diff": 2.582,
+        "null_sd": 2.697,
+        "z": 1.0
+      },
+      "n_signal": {
+        "down": 20.0,
+        "up": 18.0,
+        "diff": 2.0,
+        "null_sd": 1.085,
+        "z": 1.8
+      },
+      "tree_length": {
+        "down": 0.913,
+        "up": 0.981,
+        "diff": -0.068,
+        "null_sd": 0.014,
+        "z": -4.8
+      },
+      "gaussian_mean_corr": {
+        "down": 0.068,
+        "up": 0.066
+      }
+    },
+    "unconditional_mean_corr": 0.326
+  },
+  "semicovariance": {
+    "raw": {
+      "mean_offdiag": {
+        "P": 0.2172,
+        "N": 0.2483,
+        "M": -0.1394,
+        "C": 0.3261
+      },
+      "A_mean_offdiag": 0.0311,
+      "A_mean_z": 1.2,
+      "A_top_eigs": [
+        16.15,
+        2.39,
+        1.45,
+        1.25,
+        1.21
+      ],
+      "null_top_eig_mean_sd": [
+        8.59,
+        6.3
+      ],
+      "null_eig2_p97_5": 2.5,
+      "overlap_top_A_with_PC1": 0.953
+    },
+    "devol": {
+      "mean_offdiag": {
+        "P": 0.1869,
+        "N": 0.2198,
+        "M": -0.1534,
+        "C": 0.2532
+      },
+      "A_mean_offdiag": 0.0329,
+      "A_mean_z": 2.5,
+      "A_top_eigs": [
+        16.03,
+        2.95,
+        1.39,
+        1.25,
+        0.95
+      ],
+      "null_top_eig_mean_sd": [
+        5.46,
+        3.24
+      ],
+      "null_eig2_p97_5": 1.74,
+      "overlap_top_A_with_PC1": 0.983
+    }
+  },
+  "tails": {
+    "by_q": [
+      {
+        "q": 0.01,
+        "lower": 0.098,
+        "upper": 0.055,
+        "gauss": 0.059,
+        "z": 2.267
+      },
+      {
+        "q": 0.025,
+        "lower": 0.156,
+        "upper": 0.098,
+        "gauss": 0.097,
+        "z": 2.771
+      },
+      {
+        "q": 0.05,
+        "lower": 0.207,
+        "upper": 0.147,
+        "gauss": 0.143,
+        "z": 4.349
+      },
+      {
+        "q": 0.075,
+        "lower": 0.242,
+        "upper": 0.187,
+        "gauss": 0.181,
+        "z": 4.874
+      },
+      {
+        "q": 0.1,
+        "lower": 0.271,
+        "upper": 0.223,
+        "gauss": 0.214,
+        "z": 5.214
+      }
+    ],
+    "within_sector_q5": {
+      "Communication Services": 0.077,
+      "Consumer Discretionary": 0.059,
+      "Consumer Staples": 0.04,
+      "Energy": 0.074,
+      "Financials": 0.073,
+      "Health Care": 0.066,
+      "Industrials": 0.062,
+      "Information Technology": 0.094,
+      "Materials": 0.045,
+      "Real Estate": 0.054,
+      "Utilities": 0.097
+    },
+    "most_crash_coupled": {
+      "META": 0.11,
+      "MSFT": 0.109,
+      "AMZN": 0.106,
+      "APH": 0.105,
+      "KKR": 0.101,
+      "GOOGL": 0.101,
+      "GPN": 0.1,
+      "BX": 0.1,
+      "TEL": 0.1,
+      "NVDA": 0.1
+    },
+    "least_crash_coupled": {
+      "KR": -0.0,
+      "SJM": 0.001,
+      "ES": 0.005,
+      "ERIE": 0.007,
+      "DVA": 0.008,
+      "MKC": 0.011,
+      "CLX": 0.011,
+      "TGT": 0.012,
+      "SW": 0.013,
+      "GWW": 0.013
+    }
+  },
+  "skewness": {
+    "raw": {
+      "pc_skew": [
+        {
+          "pc": "PC1",
+          "skew": -0.92,
+          "lo": -2.02,
+          "hi": 0.43
+        },
+        {
+          "pc": "PC2",
+          "skew": 0.35,
+          "lo": 0.02,
+          "hi": 0.62
+        },
+        {
+          "pc": "PC3",
+          "skew": -0.64,
+          "lo": -1.69,
+          "hi": 0.27
+        },
+        {
+          "pc": "PC4",
+          "skew": -0.44,
+          "lo": -0.7,
+          "hi": -0.02
+        },
+        {
+          "pc": "PC5",
+          "skew": 0.55,
+          "lo": -0.6,
+          "hi": 1.46
+        },
+        {
+          "pc": "PC6",
+          "skew": -0.78,
+          "lo": -1.6,
+          "hi": -0.03
+        },
+        {
+          "pc": "PC7",
+          "skew": 0.03,
+          "lo": -0.39,
+          "hi": 0.42
+        },
+        {
+          "pc": "PC8",
+          "skew": -0.08,
+          "lo": -0.39,
+          "hi": 0.31
+        },
+        {
+          "pc": "PC9",
+          "skew": -0.31,
+          "lo": -0.96,
+          "hi": 0.35
+        },
+        {
+          "pc": "PC10",
+          "skew": 0.18,
+          "lo": -0.36,
+          "hi": 0.55
+        },
+        {
+          "pc": "PC11",
+          "skew": -0.24,
+          "lo": -0.84,
+          "hi": 0.45
+        },
+        {
+          "pc": "PC12",
+          "skew": -0.52,
+          "lo": -1.71,
+          "hi": 0.87
+        }
+      ],
+      "median_stock_skew": -0.44,
+      "index_skew": -0.93,
+      "index_skew_ci": [
+        -2.09,
+        0.36
+      ]
+    },
+    "devol": {
+      "pc_skew": [
+        {
+          "pc": "PC1",
+          "skew": -0.72,
+          "lo": -0.97,
+          "hi": -0.45
+        },
+        {
+          "pc": "PC2",
+          "skew": -0.01,
+          "lo": -0.25,
+          "hi": 0.16
+        },
+        {
+          "pc": "PC3",
+          "skew": -0.58,
+          "lo": -0.89,
+          "hi": -0.25
+        },
+        {
+          "pc": "PC4",
+          "skew": -0.3,
+          "lo": -0.56,
+          "hi": 0.01
+        },
+        {
+          "pc": "PC5",
+          "skew": -0.39,
+          "lo": -0.67,
+          "hi": -0.03
+        },
+        {
+          "pc": "PC6",
+          "skew": -0.12,
+          "lo": -0.71,
+          "hi": 0.29
+        },
+        {
+          "pc": "PC7",
+          "skew": 0.1,
+          "lo": -0.1,
+          "hi": 0.28
+        },
+        {
+          "pc": "PC8",
+          "skew": -0.06,
+          "lo": -0.26,
+          "hi": 0.15
+        },
+        {
+          "pc": "PC9",
+          "skew": -0.15,
+          "lo": -0.4,
+          "hi": 0.06
+        },
+        {
+          "pc": "PC10",
+          "skew": 0.17,
+          "lo": -0.3,
+          "hi": 0.79
+        },
+        {
+          "pc": "PC11",
+          "skew": 0.13,
+          "lo": -0.01,
+          "hi": 0.24
+        },
+        {
+          "pc": "PC12",
+          "skew": -0.06,
+          "lo": -0.37,
+          "hi": 0.22
+        }
+      ],
+      "median_stock_skew": -0.45,
+      "index_skew": -0.73,
+      "index_skew_ci": [
+        -1.0,
+        -0.45
+      ]
+    }
+  },
+  "coskew_components": [
+    {
+      "component": "C1",
+      "plus": "Hotels, Resorts & Cruise Lines",
+      "minus": "Consumer Staples Merchandise Retail",
+      "skew": 1.96,
+      "ci": [
+        -0.16,
+        4.54
+      ],
+      "top10_share": 1.05,
+      "top_days": {
+        "2020-11-09": 0.97,
+        "2021-11-05": 0.05,
+        "2020-09-03": 0.03,
+        "2021-11-26": -0.02,
+        "2021-06-28": -0.02
+      },
+      "top_plus": [
+        "RCL",
+        "CCL",
+        "NCLH",
+        "UAL",
+        "DAL",
+        "HST"
+      ],
+      "top_minus": [
+        "DG",
+        "COST",
+        "CLX",
+        "HD",
+        "LOW",
+        "CHD"
+      ],
+      "weight_on_pcs": [
+        0.06,
+        -0.04,
+        -0.48,
+        0.05,
+        0.05,
+        -0.51,
+        0.18,
+        0.22,
+        0.15,
+        0.52,
+        0.04,
+        -0.36
+      ],
+      "overlap_first_half": 0.94,
+      "overlap_second_half": 0.34,
+      "overlap_varimax": 0.69
+    },
+    {
+      "component": "C2",
+      "plus": "Packaged Foods & Meats",
+      "minus": "Semiconductors",
+      "skew": 1.12,
+      "ci": [
+        0.23,
+        1.89
+      ],
+      "top10_share": 0.83,
+      "top_days": {
+        "2025-01-27": 0.4,
+        "2026-10-22": 0.15,
+        "2026-11-04": 0.11,
+        "2024-07-17": 0.06,
+        "2025-10-29": -0.05
+      },
+      "top_plus": [
+        "GIS",
+        "CL",
+        "KO",
+        "KMB",
+        "CHD",
+        "PEP"
+      ],
+      "top_minus": [
+        "LRCX",
+        "AMAT",
+        "KLAC",
+        "MPWR",
+        "NVDA",
+        "AVGO"
+      ],
+      "weight_on_pcs": [
+        0.04,
+        0.4,
+        -0.25,
+        -0.59,
+        -0.13,
+        0.07,
+        0.5,
+        0.03,
+        0.07,
+        -0.2,
+        0.27,
+        -0.21
+      ],
+      "overlap_first_half": 0.34,
+      "overlap_second_half": 0.93,
+      "overlap_varimax": 0.9
+    },
+    {
+      "component": "C3",
+      "plus": "Regional Banks",
+      "minus": "Application Software",
+      "skew": 1.05,
+      "ci": [
+        0.33,
+        1.83
+      ],
+      "top10_share": 0.93,
+      "top_days": {
+        "2016-11-09": 0.27,
+        "2016-11-10": 0.17,
+        "2017-11-29": 0.12,
+        "2024-11-06": 0.11,
+        "2017-06-09": 0.08
+      },
+      "top_plus": [
+        "RF",
+        "CFG",
+        "KEY",
+        "HBAN",
+        "PNC",
+        "MTB"
+      ],
+      "top_minus": [
+        "PEP",
+        "ADBE",
+        "MSFT",
+        "GOOGL",
+        "AMT",
+        "GOOG"
+      ],
+      "weight_on_pcs": [
+        0.07,
+        -0.27,
+        -0.56,
+        -0.33,
+        -0.17,
+        0.2,
+        -0.06,
+        -0.03,
+        -0.43,
+        -0.07,
+        0.18,
+        0.45
+      ],
+      "overlap_first_half": 0.96,
+      "overlap_second_half": 0.73,
+      "overlap_varimax": 0.67
+    },
+    {
+      "component": "C4",
+      "plus": "Household Products",
+      "minus": "Oil & Gas Exploration & Production",
+      "skew": 0.97,
+      "ci": [
+        0.41,
+        1.54
+      ],
+      "top10_share": 0.65,
+      "top_days": {
+        "2020-03-09": 0.34,
+        "2025-04-03": 0.13,
+        "2025-04-04": 0.08,
+        "2020-11-09": -0.04,
+        "2015-08-24": 0.04
+      },
+      "top_plus": [
+        "CLX",
+        "AMCR",
+        "KR",
+        "SW",
+        "DG",
+        "CHD"
+      ],
+      "top_minus": [
+        "OKE",
+        "DVN",
+        "COP",
+        "EOG",
+        "CVX",
+        "OXY"
+      ],
+      "weight_on_pcs": [
+        -0.81,
+        0.07,
+        0.15,
+        -0.23,
+        -0.44,
+        0.19,
+        -0.14,
+        0.05,
+        0.03,
+        0.12,
+        0.01,
+        0.03
+      ],
+      "overlap_first_half": 0.99,
+      "overlap_second_half": 0.86,
+      "overlap_varimax": 0.17
+    },
+    {
+      "component": "C5",
+      "plus": "Homebuilding",
+      "minus": "Property & Casualty Insurance",
+      "skew": 0.85,
+      "ci": [
+        0.34,
+        1.33
+      ],
+      "top10_share": 0.71,
+      "top_days": {
+        "2025-04-04": 0.4,
+        "2023-12-14": 0.25,
+        "2025-04-03": -0.08,
+        "2018-10-10": 0.04,
+        "2025-07-02": 0.03
+      },
+      "top_plus": [
+        "WSM",
+        "BBY",
+        "LEN",
+        "PHM",
+        "TGT",
+        "DHI"
+      ],
+      "top_minus": [
+        "AJG",
+        "MRSH",
+        "ACGL",
+        "WRB",
+        "CB",
+        "BRO"
+      ],
+      "weight_on_pcs": [
+        -0.26,
+        -0.25,
+        -0.1,
+        0.38,
+        -0.55,
+        0.25,
+        0.35,
+        0.25,
+        0.03,
+        -0.34,
+        0.21,
+        0.04
+      ],
+      "overlap_first_half": 0.74,
+      "overlap_second_half": 0.94,
+      "overlap_varimax": 0.52
+    },
+    {
+      "component": "C6",
+      "plus": "Multi-Utilities",
+      "minus": "Application Software",
+      "skew": 0.76,
+      "ci": [
+        0.42,
+        1.14
+      ],
+      "top10_share": 0.64,
+      "top_days": {
+        "2026-02-03": 0.29,
+        "2026-04-23": 0.07,
+        "2017-11-29": 0.06,
+        "2017-06-09": 0.04,
+        "2021-01-06": 0.03
+      },
+      "top_plus": [
+        "DUK",
+        "ED",
+        "DTE",
+        "AEP",
+        "PNW",
+        "WEC"
+      ],
+      "top_minus": [
+        "NOW",
+        "ADBE",
+        "CRM",
+        "WDAY",
+        "INTU",
+        "ADSK"
+      ],
+      "weight_on_pcs": [
+        -0.12,
+        0.26,
+        -0.71,
+        0.22,
+        -0.15,
+        0.44,
+        -0.11,
+        0.15,
+        0.19,
+        0.07,
+        -0.13,
+        0.23
+      ],
+      "overlap_first_half": 0.89,
+      "overlap_second_half": 0.89,
+      "overlap_varimax": 0.72
+    }
+  ],
+  "coskew_halves_overlap": [
+    0.44,
+    0.59,
+    0.87,
+    0.34,
+    0.68,
+    0.83
+  ]
+}

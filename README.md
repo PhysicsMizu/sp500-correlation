@@ -17,6 +17,11 @@ S&P 500 stock, build the 450×450 correlation matrix, and ask:
 > covers reading eigenvectors, linking PCs to macro/style factors, why deep
 > PCs are unstable mixtures, and how a varimax rotation recovers clean
 > sector factors.
+>
+> **📖 Part II: [Do stocks fall together? Leaving the quadratic world](docs/asymmetry.md)**
+> covers down- vs. up-market correlation with a sign-flip null, semicovariance,
+> tail dependence vs. a Gaussian copula, and a coskewness-tensor
+> decomposition that turns out to be an event detector.
 
 ## Run it
 
@@ -26,7 +31,8 @@ Requires [uv](https://docs.astral.sh/uv/).
 uv run sp500-corr                       # 2015-01-01 to today
 uv run sp500-corr --start 2005-01-01 --end 2012-12-31
 uv run sp500-corr --refresh             # ignore the cached download
-uv run sp500-article                    # analysis + figures for the article
+uv run sp500-article                    # analysis + figures for Part I
+uv run sp500-asymmetry                  # analysis + figures for Part II
 uv run pytest
 ```
 
@@ -151,6 +157,9 @@ src/sp500_corr/
   pca.py        IPR, sector enrichment, eigenportfolios
   interpret.py  top loadings, factor correlations, R², stability, varimax
   article.py    the analysis behind docs/what-the-pcs-mean.md (`uv run sp500-article`)
+  asymmetry.py  sign-flip null, conditional corr, semicovariance, tail dependence,
+                coskewness tensor + tensor power method
+  asym_article.py  the analysis behind docs/asymmetry.md (`uv run sp500-asymmetry`)
   mst.py        distance, MST, sector purity test, rolling tree length
   portfolio.py  rolling out-of-sample GMV backtest
   plots.py      all figures

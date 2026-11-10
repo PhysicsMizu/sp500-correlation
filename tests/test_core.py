@@ -97,3 +97,49 @@ def test_r2_decomposition_matches_regression():
     f = z @ s.eigvecs[:, 0]
     direct = np.array([np.corrcoef(z[:, i], f)[0, 1] ** 2 for i in range(N)])
     assert np.allclose(r2, direct, atol=1e-6)
+
+
+# --- asymmetry -----------------------------------------------------------------
+
+from sp500_corr import asymmetry as asy  # noqa: E402
+
+
+def test_sign_flip_swaps_semicovariances_and_tails():
+    rng = np.random.default_rng(5)
+    y = rng.standard_normal((400, 8)) + rng.standard_normal((400, 1))
+    p, n, m = asy.semicovariance(y)
+    assert np.allclose(p + n + m, y.T @ y / len(y))  # exact decomposition
+    p2, n2, _ = asy.semicovariance(-y)
+    assert np.allclose(p, n2) and np.allclose(n, p2)
+    lo, hi = asy.tail_dependence(asy.to_uniform(y), 0.1)
+    lo2, hi2 = asy.tail_dependence(asy.to_uniform(-y), 0.1)
+    assert np.allclose(lo, hi2) and np.allclose(hi, lo2)
+
+
+def test_ewma_devol_uses_only_the_past():
+    rng = np.random.default_rng(6)
+    r = pd.DataFrame(rng.standard_normal((300, 3)) * 0.01)
+    r2 = r.copy()
+    r2.iloc[-1] *= 50  # a shock on the last day
+    a = asy.ewma_devol(r)
+    b = asy.ewma_devol(r2)
+    # Before re-standardization, scaled returns before the shock are untouched;
+    # check correlation structure of the earlier rows is identical
+    assert np.allclose(np.corrcoef(a.iloc[:-1].values, rowvar=False),
+                       np.corrcoef(b.iloc[:-1].values, rowvar=False))
+
+
+def test_tensor_power_method_identifies_independent_skewed_factors():
+    # The ICA identification result: second moments can't tell rotated factors
+    # apart, but the coskewness tensor can, if the factors are independent and skewed.
+    from scipy.stats import special_ortho_group
+
+    rng = np.random.default_rng(7)
+    k, t = 4, 200_000
+    s = rng.exponential(size=(t, k)) - 1  # skewness 2 each
+    s /= s.std(axis=0)
+    mix = special_ortho_group.rvs(k, random_state=rng)
+    x = s @ mix.T  # still white: covariance = I, so PCA sees nothing
+    kappas, u = asy.tensor_power_decomposition(asy.coskewness(x), k, rng)
+    assert interpret.eigvec_overlap(u, mix).max(axis=1).min() > 0.99
+    assert np.allclose(kappas, 2, atol=0.1)

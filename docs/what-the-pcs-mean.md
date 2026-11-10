@@ -274,6 +274,10 @@ Going back to the activity heatmap from section 3:
    signal subspace gives factors you can name, which PCA's ordering by
    variance does not.
 
+**Next: [Part II, "Do stocks fall together? Leaving the quadratic world"](asymmetry.md)**
+looks at what correlation can't see: down- vs. up-market structure,
+semicovariance, tail dependence, and the coskewness tensor.
+
 ## Reproduce
 
 ```bash
