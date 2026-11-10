@@ -243,3 +243,67 @@ def test_single_asset_trend_timing_and_costs():
     r5, _ = st.single_asset_trend(price, risky, cash, str(idx[0].date()), str(idx[-1].date()),
                                   sma_days=10, cost_bps=5)
     assert np.isclose(r.iloc[k + 2] - r5.iloc[k + 2], 2 * 5 / 1e4)
+
+
+# --- Markov chains and HMMs --------------------------------------------------------------
+
+from sp500_corr import markov as mk  # noqa: E402
+
+
+def _simulate_hmm(T=20000, seed=12):
+    rng = np.random.default_rng(seed)
+    A = np.array([[0.99, 0.01], [0.03, 0.97]])
+    s = np.zeros(T, dtype=int)
+    for t in range(1, T):
+        s[t] = rng.choice(2, p=A[s[t - 1]])
+    x = np.where(s == 0, rng.normal(0.0005, 0.005, T), rng.normal(-0.001, 0.02, T))
+    return x, s, A
+
+
+def test_markov_order_test_detects_dependence_only_when_present():
+    rng = np.random.default_rng(13)
+    iid = rng.integers(0, 3, 5000)
+    assert mk.markov_order_test(iid, 3, 1)["p"] > 0.001
+    _, s, _ = _simulate_hmm(5000)
+    assert mk.markov_order_test(s, 2, 1)["p"] < 1e-10
+
+
+def test_stationary_distribution_and_durations():
+    P = np.array([[0.9, 0.1], [0.3, 0.7]])
+    assert np.allclose(mk.stationary_distribution(P), [0.75, 0.25])
+    assert np.allclose(mk.expected_durations(P), [10, 10 / 3])
+
+
+def test_hmm_recovers_parameters():
+    x, _, A = _simulate_hmm()
+    m = mk.fit_hmm(x, 2, n_init=3)
+    assert np.allclose(m.sigma, [0.005, 0.02], rtol=0.1)
+    assert np.allclose(np.diag(m.A), np.diag(A), atol=0.02)
+
+
+def test_filtered_is_causal_smoothed_is_not():
+    x, _, _ = _simulate_hmm(3000)
+    m = mk.fit_hmm(x, 2, n_init=2)
+    x2 = x.copy()
+    x2[2000:] *= 5  # change only the future
+    f1, _ = m.filter(x)
+    f2, _ = m.filter(x2)
+    assert np.allclose(f1[:2000], f2[:2000])            # filtered past is untouched
+    s1, s2 = m.smooth(x), m.smooth(x2)
+    assert not np.allclose(s1[1990:2000], s2[1990:2000])  # smoothed past "knows" the future
+
+
+def test_ewma_forecast_alignment():
+    rng = np.random.default_rng(14)
+    x = rng.standard_normal(200) * 0.01
+    v = mk.ewma_variance_forecast(x, lam=0.9)
+    # row t is the forecast for t+1 made at t, so it must use x[t]
+    assert np.isclose(v[100], 0.9 * v[99] + 0.1 * x[100] ** 2)
+
+
+def test_diebold_mariano_sign():
+    rng = np.random.default_rng(15)
+    b = rng.exponential(1, 3000)
+    a = b - 0.2 + rng.normal(0, 0.1, 3000)
+    res = mk.diebold_mariano(a, b)
+    assert res["stat"] < 0 and res["p"] < 1e-6
