@@ -289,6 +289,10 @@ were the defining days for two specific long-short trades.
    leaves free. In practice it finds the vaccine day, the elections, DeepSeek
    and the tariffs.
 
+**Next: [Part III, "Building portfolios from what we learned, and judging them honestly"](portfolios.md)**
+turns this into minimum-variance, trend and skew portfolios and tests them out
+of sample.
+
 ## Reproduce
 
 ```bash

@@ -22,6 +22,11 @@ S&P 500 stock, build the 450×450 correlation matrix, and ask:
 > covers down- vs. up-market correlation with a sign-flip null, semicovariance,
 > tail dependence vs. a Gaussian copula, and a coskewness-tensor
 > decomposition that turns out to be an event detector.
+>
+> **📖 Part III: [Building portfolios from what we learned, and judging them honestly](docs/portfolios.md)**
+> covers minimum variance on the cleaned covariance, HRP, trend rules, and a skew foil,
+> trained on 2017–2022 and tested once on 2023–2026, with bootstrap CIs, deflated
+> Sharpe ratios, factor regressions and a measurement of survivorship bias.
 
 ## Run it
 
@@ -33,6 +38,7 @@ uv run sp500-corr --start 2005-01-01 --end 2012-12-31
 uv run sp500-corr --refresh             # ignore the cached download
 uv run sp500-article                    # analysis + figures for Part I
 uv run sp500-asymmetry                  # analysis + figures for Part II
+uv run sp500-strategies                 # backtests + figures for Part III (~6 min)
 uv run pytest
 ```
 
@@ -160,6 +166,9 @@ src/sp500_corr/
   asymmetry.py  sign-flip null, conditional corr, semicovariance, tail dependence,
                 coskewness tensor + tensor power method
   asym_article.py  the analysis behind docs/asymmetry.md (`uv run sp500-asymmetry`)
+  backtest.py   walk-forward engine (no look-ahead), bootstrap, PSR/DSR/MinTRL, Newey-West
+  strategies.py min variance, HRP, trend filters, lottery foil, equal weight
+  strat_article.py the study behind docs/portfolios.md (`uv run sp500-strategies`)
   mst.py        distance, MST, sector purity test, rolling tree length
   portfolio.py  rolling out-of-sample GMV backtest
   plots.py      all figures

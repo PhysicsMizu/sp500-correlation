@@ -143,3 +143,103 @@ def test_tensor_power_method_identifies_independent_skewed_factors():
     kappas, u = asy.tensor_power_decomposition(asy.coskewness(x), k, rng)
     assert interpret.eigvec_overlap(u, mix).max(axis=1).min() > 0.99
     assert np.allclose(kappas, 2, atol=0.1)
+
+
+# --- backtest engine & strategies ----------------------------------------------------
+
+from sp500_corr import backtest as bt, strategies as st  # noqa: E402
+
+
+def _toy_returns(T=300, n=4, seed=8):
+    rng = np.random.default_rng(seed)
+    idx = pd.bdate_range("2020-01-01", periods=T)
+    R = pd.DataFrame(rng.normal(0.0005, 0.01, (T, n)), index=idx, columns=list("abcd")[:n])
+    cash = pd.Series(0.0001, index=idx)
+    return R, cash
+
+
+def test_engine_has_no_lookahead():
+    R, cash = _toy_returns()
+    seen = []
+
+    def spy(hist):
+        seen.append(hist.index[-1])
+        return np.full(hist.shape[1], 1 / hist.shape[1])
+
+    res = bt.run(R, cash, spy, "2020-03-01", "2020-12-31", lookback=40)
+    rebal = list(res.turnover.index)
+    assert len(seen) == len(rebal)
+    for last_seen, d in zip(seen, rebal):
+        assert last_seen < d  # the strategy never sees the rebalance day's return
+    # and the first P&L day is the day *after* the first rebalance
+    assert res.returns.index[0] > rebal[0]
+
+
+def test_engine_accounting():
+    R, cash = _toy_returns()
+    res = bt.run(R, cash, lambda h: np.array([1.0, 0, 0, 0]), "2020-03-01", "2020-06-30",
+                 lookback=20, cost_bps=10)
+    first = res.returns.index[0]
+    # 100% in asset a: gross = r_a; first day pays cost on 2.0 of two-way turnover
+    assert np.isclose(res.gross[first], R.loc[first, "a"])
+    assert np.isclose(res.returns[first], R.loc[first, "a"] - 2.0 * 10 / 1e4)
+    # all cash -> earns the cash rate exactly, no turnover after the first trade
+    res0 = bt.run(R, cash, lambda h: np.zeros(4), "2020-03-01", "2020-06-30", lookback=20)
+    assert np.allclose(res0.returns, 0.0001) and np.allclose(res0.turnover, 0)
+
+
+def test_min_variance_respects_constraints_and_theory():
+    rng = np.random.default_rng(9)
+    vols = np.array([0.01, 0.02, 0.03, 0.04])
+    hist = pd.DataFrame(rng.standard_normal((5000, 4)) * vols)
+    w = st.min_variance(cap=1.0, clean=False)(hist)
+    # uncorrelated => inverse variance, with the strategy's own (EWMA) variances
+    v = st._ewma_vol(hist) ** 2
+    expected = (1 / v) / (1 / v).sum()
+    assert np.allclose(w, expected, atol=0.02)
+    w_cap = st.min_variance(cap=0.4, clean=False)(hist)
+    assert w_cap.max() <= 0.4 + 1e-6 and np.isclose(w_cap.sum(), 1)
+
+
+def test_hrp_balances_risk_across_clusters():
+    rng = np.random.default_rng(10)
+    T = 3000
+    # cluster A: 6 correlated stocks; cluster B: 2 correlated stocks, same vol
+    fa, fb = rng.standard_normal((T, 1)), rng.standard_normal((T, 1))
+    x = np.hstack([fa + 0.3 * rng.standard_normal((T, 6)), fb + 0.3 * rng.standard_normal((T, 2))]) * 0.01
+    w = st.hrp()(pd.DataFrame(x))
+    assert np.isclose(w.sum(), 1) and (w > 0).all()
+    # roughly equal capital per cluster despite 6 vs 2 names (each cluster is ~one bet)
+    assert 0.35 < w[:6].sum() < 0.65
+
+
+def test_sharpe_se_matches_normal_formula():
+    rng = np.random.default_rng(11)
+    ex = rng.normal(0.05, 1, 20000)
+    sr = ex.mean() / ex.std()
+    assert np.isclose(bt.sharpe_se(ex), np.sqrt((1 + sr**2 / 2) / len(ex)), rtol=0.05)
+
+
+def test_holm_adjustment():
+    p = pd.Series({"a": 0.01, "b": 0.04, "c": 0.03})
+    adj = bt.holm(p)
+    assert np.isclose(adj["a"], 0.03) and np.isclose(adj["c"], 0.06) and np.isclose(adj["b"], 0.06)
+
+
+def test_single_asset_trend_timing_and_costs():
+    idx = pd.bdate_range("2020-01-01", periods=60)
+    # price rises for 30 days, then crashes and falls for 30 days
+    price = pd.Series(np.r_[np.linspace(100, 130, 30), np.linspace(100, 70, 30)], index=idx)
+    risky = price.pct_change().fillna(0)
+    cash = pd.Series(0.0, index=idx)
+    r, pos = st.single_asset_trend(price, risky, cash, str(idx[0].date()), str(idx[-1].date()),
+                                   sma_days=10, cost_bps=0)
+    above = price > price.rolling(10).mean()
+    first_below = above[above.index > idx[29]].idxmin()  # first day the close is below the MA
+    k = idx.get_loc(first_below)
+    # still long on the crash day itself and the day after; out two days after the signal
+    assert pos.iloc[k] == 1 and pos.iloc[k + 1] == 1 and pos.iloc[k + 2] == 0
+    # with costs, a switch costs 2 x bps on the day the new position starts
+    r5, _ = st.single_asset_trend(price, risky, cash, str(idx[0].date()), str(idx[-1].date()),
+                                  sma_days=10, cost_bps=5)
+    assert np.isclose(r.iloc[k + 2] - r5.iloc[k + 2], 2 * 5 / 1e4)
