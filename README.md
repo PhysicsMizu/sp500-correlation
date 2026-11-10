@@ -27,6 +27,11 @@ S&P 500 stock, build the 450×450 correlation matrix, and ask:
 > covers minimum variance on the cleaned covariance, HRP, trend rules, and a skew foil,
 > trained on 2017–2022 and tested once on 2023–2026, with bootstrap CIs, deflated
 > Sharpe ratios, factor regressions and a measurement of survivorship bias.
+>
+> **📖 Part IV: [Markov chains and regimes: what the market's "state" actually predicts](docs/markov.md)**
+> covers Markov-order tests, a hand-built Gaussian HMM, the filtered-vs-smoothed look-ahead
+> trap, 24 years of walk-forward regime timing and vol targeting against an EWMA baseline,
+> and a regime-aware minimum variance with an ablation.
 
 ## Run it
 
@@ -39,6 +44,7 @@ uv run sp500-corr --refresh             # ignore the cached download
 uv run sp500-article                    # analysis + figures for Part I
 uv run sp500-asymmetry                  # analysis + figures for Part II
 uv run sp500-strategies                 # backtests + figures for Part III (~6 min)
+uv run sp500-markov                     # Markov chains + HMMs for Part IV (~5 min)
 uv run pytest
 ```
 
@@ -169,6 +175,8 @@ src/sp500_corr/
   backtest.py   walk-forward engine (no look-ahead), bootstrap, PSR/DSR/MinTRL, Newey-West
   strategies.py min variance, HRP, trend filters, lottery foil, equal weight
   strat_article.py the study behind docs/portfolios.md (`uv run sp500-strategies`)
+  markov.py     Markov chains, order tests, Gaussian HMM (filter/smoother), forecasts, DM test
+  markov_article.py the study behind docs/markov.md (`uv run sp500-markov`)
   mst.py        distance, MST, sector purity test, rolling tree length
   portfolio.py  rolling out-of-sample GMV backtest
   plots.py      all figures
