@@ -339,6 +339,10 @@ and none can be shown to underperform it either.
    variance loses half its Sharpe. Across 33 reasonable variants, the training ranking
    had zero predictive power for the test ranking.
 
+**Next: [Part IV, "Markov chains and regimes: what the market's 'state' actually predicts"](markov.md)**
+tests observable Markov chains and hidden Markov models, including the look-ahead
+trap of smoothed regime probabilities and a 24-year walk-forward.
+
 ## Reproduce
 
 ```bash

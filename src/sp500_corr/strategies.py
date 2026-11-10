@@ -48,22 +48,55 @@ def min_variance(cap: float = 0.05, clean: bool = True):
     No expected returns anywhere: they can't be estimated with any useful
     precision. Any extra return has to come from the low-volatility anomaly.
     """
+    def f(hist: pd.DataFrame) -> np.ndarray:
+        return solve_min_variance(covariance(hist, clean=clean), cap)
+    return f
+
+
+def solve_min_variance(S: np.ndarray, cap: float) -> np.ndarray:
+    """Long-only, fully invested, w_i <= cap, minimum w'Sw."""
     import cvxpy as cp
 
+    S = (S + S.T) / 2
+    n = len(S)
+    # Square-root factor: w'Sw = ||L'w||^2. Eigen-based so it also works
+    # when S is singular (raw sample covariance with N > T).
+    vals, vecs = np.linalg.eigh(S)
+    L = vecs * np.sqrt(np.clip(vals, 0, None))
+    w = cp.Variable(n)
+    prob = cp.Problem(cp.Minimize(cp.sum_squares(L.T @ w)),
+                      [cp.sum(w) == 1, w >= 0, w <= cap])
+    prob.solve(solver=cp.CLARABEL)
+    x = np.clip(np.asarray(w.value).ravel(), 0, None)
+    return x / x.sum()
+
+
+def regime_min_variance(probs: pd.DataFrame, A: np.ndarray, cap: float = 0.05, horizon: int = 21):
+    """Minimum variance on a covariance that mixes regime-specific covariances.
+
+    probs: *filtered* (causal) HMM state probabilities of the market, by date.
+    For each regime k, every day in the trailing window is weighted by
+    P(s_day = k), giving a regime correlation (RMT-clipped at its effective
+    sample size) and regime vols. The forecast covariance for the coming month
+    mixes them with the average predicted state probabilities over the next
+    `horizon` days: Sigma = sum_k pbar_k Sigma_k.
+    """
     def f(hist: pd.DataFrame) -> np.ndarray:
-        S = covariance(hist, clean=clean)
-        S = (S + S.T) / 2
-        n = len(S)
-        # Square-root factor: w'Sw = ||L'w||^2. Eigen-based so it also works
-        # when S is singular (raw sample covariance with N > T).
-        vals, vecs = np.linalg.eigh(S)
-        L = vecs * np.sqrt(np.clip(vals, 0, None))
-        w = cp.Variable(n)
-        prob = cp.Problem(cp.Minimize(cp.sum_squares(L.T @ w)),
-                          [cp.sum(w) == 1, w >= 0, w <= cap])
-        prob.solve(solver=cp.CLARABEL)
-        x = np.clip(np.asarray(w.value).ravel(), 0, None)
-        return x / x.sum()
+        p = probs.reindex(hist.index).ffill().fillna(1 / probs.shape[1]).values
+        x = hist.values - hist.values.mean(axis=0)
+        S = np.zeros((x.shape[1], x.shape[1]))
+        p_now = p[-1]
+        pbar = np.mean([p_now @ np.linalg.matrix_power(A, h) for h in range(1, horizon + 1)], axis=0)
+        for k in range(p.shape[1]):
+            w = p[:, k]
+            n_eff = w.sum() ** 2 / (w**2).sum()
+            cov = (x * w[:, None]).T @ x / w.sum()
+            sd = np.sqrt(np.diag(cov))
+            c = cov / np.outer(sd, sd)
+            if n_eff > 30:
+                c, _ = clip(c, n_obs=int(n_eff))
+            S += pbar[k] * c * np.outer(sd, sd)
+        return solve_min_variance(S, cap)
     return f
 
 
@@ -183,3 +216,12 @@ def single_asset_trend(
     trades = pos.diff().abs().fillna(pos.iloc[0])
     r = pos * risky.reindex(days) + (1 - pos) * cash.reindex(days) - trades * 2 * cost_bps / 1e4
     return r, pos
+
+
+def min_variance_window(cap: float = 0.05):
+    """Ablation baseline: RMT-clipped correlation x *window* (not EWMA) vols, no regimes."""
+    def f(hist: pd.DataFrame) -> np.ndarray:
+        c, _ = clip(np.corrcoef(hist.values, rowvar=False), n_obs=len(hist))
+        sd = hist.std().values
+        return solve_min_variance(c * np.outer(sd, sd), cap)
+    return f
