@@ -13,6 +13,11 @@ S&P 500 stock, build the 450×450 correlation matrix, and ask:
 4. **Does any of this matter?** Out-of-sample minimum-variance portfolios built
    from the raw vs. cleaned correlation matrix.
 
+> **📖 Article: [What the principal components of the S&P 500 actually mean](docs/what-the-pcs-mean.md)**
+> covers reading eigenvectors, linking PCs to macro/style factors, why deep
+> PCs are unstable mixtures, and how a varimax rotation recovers clean
+> sector factors.
+
 ## Run it
 
 Requires [uv](https://docs.astral.sh/uv/).
@@ -21,6 +26,7 @@ Requires [uv](https://docs.astral.sh/uv/).
 uv run sp500-corr                       # 2015-01-01 to today
 uv run sp500-corr --start 2005-01-01 --end 2012-12-31
 uv run sp500-corr --refresh             # ignore the cached download
+uv run sp500-article                    # analysis + figures for the article
 uv run pytest
 ```
 
@@ -143,6 +149,8 @@ src/sp500_corr/
   data.py       constituents (Wikipedia) + prices (yfinance), cached
   rmt.py        Marchenko-Pastur, noise-variance fit, clipping, detoning
   pca.py        IPR, sector enrichment, eigenportfolios
+  interpret.py  top loadings, factor correlations, R², stability, varimax
+  article.py    the analysis behind docs/what-the-pcs-mean.md (`uv run sp500-article`)
   mst.py        distance, MST, sector purity test, rolling tree length
   portfolio.py  rolling out-of-sample GMV backtest
   plots.py      all figures

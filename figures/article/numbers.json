@@ -1,0 +1,363 @@
+{
+  "T": 2980,
+  "N": 456,
+  "start": "2015-01-05",
+  "end": "2026-11-09",
+  "halves_split": "2020-12-03",
+  "n_signal": 36,
+  "n_signal_halves": [
+    29,
+    27
+  ],
+  "eigvals": [
+    155.16,
+    25.72,
+    16.79,
+    9.8,
+    7.82,
+    7.24,
+    5.59,
+    4.64,
+    4.45,
+    4.0,
+    3.24,
+    3.02
+  ],
+  "titles": {
+    "PC1": "PC1:  + Industrial Machinery & Supplies & Components   vs   \u2212 Packaged Foods & Meats",
+    "PC2": "PC2:  + Electric Utilities   vs   \u2212 Semiconductors",
+    "PC3": "PC3:  + Application Software   vs   \u2212 Oil & Gas Exploration & Production",
+    "PC4": "PC4:  + Semiconductor Materials & Equipment   vs   \u2212 Insurance Brokers",
+    "PC5": "PC5:  + Construction Machinery & Heavy Transportation Equipment   vs   \u2212 Retail REITs",
+    "PC6": "PC6:  + Oil & Gas Exploration & Production   vs   \u2212 Homebuilding",
+    "PC7": "PC7:  + Oil & Gas Exploration & Production   vs   \u2212 Investment Banking & Brokerage",
+    "PC8": "PC8:  + Biotechnology   vs   \u2212 Automotive Retail",
+    "PC9": "PC9:  + Managed Health Care   vs   \u2212 Asset Management & Custody Banks",
+    "PC10": "PC10:  + Packaged Foods & Meats   vs   \u2212 Life Sciences Tools & Services",
+    "PC11": "PC11:  + Multi-Family Residential REITs   vs   \u2212 Hotels, Resorts & Cruise Lines",
+    "PC12": "PC12:  + Aerospace & Defense   vs   \u2212 Regional Banks"
+  },
+  "raw_overlap_diag": [
+    0.98,
+    0.79,
+    0.67,
+    0.03,
+    0.38,
+    0.14,
+    0.39,
+    0.1,
+    0.48,
+    0.01,
+    0.08,
+    0.16
+  ],
+  "rot_overlap_diag": [
+    0.92,
+    0.83,
+    0.47,
+    0.84,
+    0.81,
+    0.7,
+    0.33,
+    0.03,
+    0.73,
+    0.73,
+    0.73
+  ],
+  "rot_labels": [
+    "Electric Utilities",
+    "Application Software",
+    "Retail REITs",
+    "Oil & Gas Exploration ",
+    "Regional Banks",
+    "Biotechnology",
+    "Financial Exchanges & ",
+    "Consumer Staples Merch",
+    "Semiconductors",
+    "Household Products",
+    "Multi-Family Residenti"
+  ],
+  "subspace_overlap": {
+    "1": 0.965,
+    "3": 0.748,
+    "5": 0.619,
+    "10": 0.636,
+    "20": 0.555
+  },
+  "random_vector_overlap": 0.037,
+  "r2_median": {
+    "market": 0.336,
+    "signal": 0.642
+  },
+  "r2_by_sector": {
+    "Communication Services": {
+      "market": 0.259,
+      "signal": 0.543
+    },
+    "Consumer Discretionary": {
+      "market": 0.338,
+      "signal": 0.605
+    },
+    "Consumer Staples": {
+      "market": 0.205,
+      "signal": 0.551
+    },
+    "Energy": {
+      "market": 0.283,
+      "signal": 0.726
+    },
+    "Financials": {
+      "market": 0.471,
+      "signal": 0.72
+    },
+    "Health Care": {
+      "market": 0.261,
+      "signal": 0.578
+    },
+    "Industrials": {
+      "market": 0.412,
+      "signal": 0.64
+    },
+    "Information Technology": {
+      "market": 0.305,
+      "signal": 0.599
+    },
+    "Materials": {
+      "market": 0.358,
+      "signal": 0.585
+    },
+    "Real Estate": {
+      "market": 0.373,
+      "signal": 0.723
+    },
+    "Utilities": {
+      "market": 0.265,
+      "signal": 0.732
+    }
+  },
+  "most_idiosyncratic": {
+    "PCG": {
+      "market": 0.09,
+      "signal": 0.24
+    },
+    "ECHO": {
+      "market": 0.14,
+      "signal": 0.25
+    },
+    "TKO": {
+      "market": 0.14,
+      "signal": 0.3
+    },
+    "GEN": {
+      "market": 0.15,
+      "signal": 0.32
+    },
+    "SMCI": {
+      "market": 0.1,
+      "signal": 0.34
+    },
+    "SW": {
+      "market": 0.06,
+      "signal": 0.34
+    },
+    "DPZ": {
+      "market": 0.12,
+      "signal": 0.35
+    },
+    "DVA": {
+      "market": 0.16,
+      "signal": 0.35
+    }
+  },
+  "most_market": {
+    "AMP": {
+      "market": 0.68,
+      "signal": 0.82
+    },
+    "PRU": {
+      "market": 0.64,
+      "signal": 0.84
+    },
+    "BLK": {
+      "market": 0.63,
+      "signal": 0.75
+    },
+    "PFG": {
+      "market": 0.63,
+      "signal": 0.81
+    },
+    "BRK-B": {
+      "market": 0.63,
+      "signal": 0.76
+    },
+    "ITW": {
+      "market": 0.63,
+      "signal": 0.79
+    },
+    "PH": {
+      "market": 0.62,
+      "signal": 0.78
+    },
+    "AME": {
+      "market": 0.61,
+      "signal": 0.76
+    }
+  },
+  "factor_corr_max": {
+    "PC1": [
+      "Market (SPY)",
+      0.93
+    ],
+    "PC2": [
+      "Low vol (USMV\u2212SPY)",
+      0.74
+    ],
+    "PC3": [
+      "Value \u2212 growth (IVE\u2212IVW)",
+      -0.68
+    ],
+    "PC4": [
+      "Semis (SMH\u2212SPY)",
+      0.45
+    ],
+    "PC5": [
+      "Airlines (JETS\u2212SPY)",
+      -0.33
+    ],
+    "PC6": [
+      "Oil (USO)",
+      0.49
+    ],
+    "PC7": [
+      "Oil (USO)",
+      0.21
+    ],
+    "PC8": [
+      "Airlines (JETS\u2212SPY)",
+      0.13
+    ],
+    "PC9": [
+      "Regional banks (KRE\u2212SPY)",
+      -0.25
+    ],
+    "PC10": [
+      "Low vol (USMV\u2212SPY)",
+      -0.16
+    ],
+    "PC11": [
+      "Airlines (JETS\u2212SPY)",
+      -0.26
+    ],
+    "PC12": [
+      "Regional banks (KRE\u2212SPY)",
+      -0.15
+    ]
+  },
+  "activity_max": {
+    "PC1": [
+      2020,
+      4.7
+    ],
+    "PC2": [
+      2020,
+      2.0
+    ],
+    "PC3": [
+      2020,
+      4.1
+    ],
+    "PC4": [
+      2026,
+      5.5
+    ],
+    "PC5": [
+      2020,
+      4.2
+    ],
+    "PC6": [
+      2026,
+      2.8
+    ],
+    "PC7": [
+      2020,
+      2.2
+    ],
+    "PC8": [
+      2026,
+      1.7
+    ],
+    "PC9": [
+      2020,
+      2.5
+    ],
+    "PC10": [
+      2020,
+      2.1
+    ],
+    "PC11": [
+      2020,
+      3.0
+    ],
+    "PC12": [
+      2020,
+      4.0
+    ]
+  },
+  "varimax": [
+    {
+      "factor": "Electric Utilities",
+      "variance": 19.1,
+      "top": "CMS, ED, WEC, AEP, LNT, DUK"
+    },
+    {
+      "factor": "Application Software",
+      "variance": 10.1,
+      "top": "NOW, ADBE, CRM, WDAY, INTU, TYL"
+    },
+    {
+      "factor": "Semiconductor Materials & Equipment",
+      "variance": 12.4,
+      "top": "LRCX, AMAT, TER, MRVL, KLAC, MU"
+    },
+    {
+      "factor": "Multi-Family Residential REITs",
+      "variance": 5.5,
+      "top": "UDR, ESS, VMRK, CPT, DOC, MAA"
+    },
+    {
+      "factor": "Oil & Gas Exploration & Production",
+      "variance": 10.2,
+      "top": "EOG, DVN, COP, FANG, OXY, APA"
+    },
+    {
+      "factor": "Regional Banks",
+      "variance": 7.3,
+      "top": "HBAN, BAC, MTB, KEY, TFC, USB"
+    },
+    {
+      "factor": "Biotechnology",
+      "variance": 6.1,
+      "top": "TMO, AMGN, REGN, BDX, MRK, ABBV"
+    },
+    {
+      "factor": "Property & Casualty Insurance",
+      "variance": 5.3,
+      "top": "HIG, CME, CBOE, TRV, ELV, UNH"
+    },
+    {
+      "factor": "Household Products",
+      "variance": 6.2,
+      "top": "GIS, KR, CLX, SJM, CHD, HRL"
+    },
+    {
+      "factor": "Hotels, Resorts & Cruise Lines",
+      "variance": 5.6,
+      "top": "NCLH, CCL, RCL, UAL, DAL, EXPE"
+    },
+    {
+      "factor": "Aerospace & Defense",
+      "variance": 4.5,
+      "top": "LMT, NOC, LHX, GD, HII, RTX"
+    }
+  ]
+}

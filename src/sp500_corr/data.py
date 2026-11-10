@@ -50,11 +50,12 @@ def get_prices(
     end: str | None = None,
     data_dir: Path = DATA_DIR,
     refresh: bool = False,
+    name: str = "prices",
 ) -> pd.DataFrame:
     """Daily dividend/split-adjusted closes (dates x tickers), cached as parquet."""
     import yfinance as yf
 
-    path = data_dir / f"prices_{start}_{end or 'latest'}.parquet"
+    path = data_dir / f"{name}_{start}_{end or 'latest'}.parquet"
     if path.exists() and not refresh:
         return pd.read_parquet(path)
 
@@ -67,6 +68,40 @@ def get_prices(
     data_dir.mkdir(parents=True, exist_ok=True)
     prices.to_parquet(path)
     return prices
+
+
+FACTOR_ETFS = ["SPY", "TLT", "USO", "GLD", "UUP", "IWM", "IVE", "IVW", "MTUM", "USMV",
+               "JETS", "SMH", "KRE", "HYG", "^VIX"]
+
+
+def get_factor_returns(start: str, end: str | None = None, data_dir: Path = DATA_DIR,
+                       refresh: bool = False) -> pd.DataFrame:
+    """Daily log returns of ETF proxies for macro and style factors.
+
+    Style factors are long-short spreads against SPY so they aren't just
+    "the market" again.
+    """
+    px = get_prices(FACTOR_ETFS, start, end, data_dir=data_dir, refresh=refresh,
+                    name="factors")
+    r = np.log(px).diff()
+    return pd.DataFrame(
+        {
+            "Market (SPY)": r["SPY"],
+            "Volatility (VIX)": r["^VIX"],
+            "Credit (HYG)": r["HYG"],
+            "Long bonds (TLT)": r["TLT"],
+            "Oil (USO)": r["USO"],
+            "Gold (GLD)": r["GLD"],
+            "Dollar (UUP)": r["UUP"],
+            "Small − large (IWM−SPY)": r["IWM"] - r["SPY"],
+            "Value − growth (IVE−IVW)": r["IVE"] - r["IVW"],
+            "Momentum (MTUM−SPY)": r["MTUM"] - r["SPY"],
+            "Low vol (USMV−SPY)": r["USMV"] - r["SPY"],
+            "Semis (SMH−SPY)": r["SMH"] - r["SPY"],
+            "Regional banks (KRE−SPY)": r["KRE"] - r["SPY"],
+            "Airlines (JETS−SPY)": r["JETS"] - r["SPY"],
+        }
+    ).iloc[1:]
 
 
 def log_returns(prices: pd.DataFrame, min_coverage: float = 0.99) -> pd.DataFrame:
